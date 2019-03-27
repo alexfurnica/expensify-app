@@ -9,6 +9,7 @@ import getVisibleExpenses from './selectors/expenses';
 import 'normalize.css/normalize.css'; // makes sure all browsers start from the same base to ensure CSS applies
 import './styles/styles.scss';
 import 'react-dates/lib/css/_datepicker.css'
+import './firebase/firebase'
 
 const store = configureStore();
 
