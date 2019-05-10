@@ -1,6 +1,6 @@
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import {startAddExpense, addExpense, editExpense, removeExpense, setExpenses, startSetExpenses, startRemoveExpense} from '../../actions/expenses'
+import {startAddExpense, addExpense, editExpense, removeExpense, setExpenses, startSetExpenses, startRemoveExpense, startEditExpense} from '../../actions/expenses'
 import expenses from '../fixtures/expenses'
 import database from '../../firebase/firebase'
 
@@ -30,6 +30,24 @@ test('Should setup edit expense action object', () => {
     updates: {
       note: '10plm'
     }
+  })
+})
+
+test('Should edit expense from firebase', (done) => {
+  const store = createMockStore({})
+  const id = expenses[0].id
+  const updates = {amount: 21045}
+  store.dispatch(startEditExpense(id, updates)).then(() => {
+    const actions = store.getActions()
+    expect(actions[0]).toEqual({
+      type: 'EDIT_EXPENSE',
+      id,
+      updates
+    })
+    return database.ref(`expenses/${id}`).once('value')
+  }).then((snapshot) => {
+    expect(snapshot.val().amount).toBe(updates.amount)
+    done()
   })
 })
 
@@ -112,21 +130,37 @@ test('Should fetch the expenses from firebase', (done) => {
 })
 
 test('Should remove expenses from firebase', (done) => {
-  const ids = []
   const store = createMockStore({})
-  database.ref('expenses').once('value').then((snapshot) => {
-    snapshot.forEach((childSnapshot) => {
-      ids.push(childSnapshot.key)
+  const id = expenses[2].id
+  store.dispatch(startRemoveExpense({id})).then(() => {
+    const actions = store.getActions()
+    expect(actions[0]).toEqual({
+      type: 'REMOVE_EXPENSE',
+      id
     })
-  }).then(() => {
-    store.dispatch(startRemoveExpense({id: ids[0]})).then(() => {
-      database.ref(`expenses/${ids[0]}`).once('value').then((snapshot) => {
-        expect(snapshot.val()).toBeNull()
-        done()
-      })
-    })
+    return database.ref(`expenses/${id}`).once('value')
+  }).then((snapshot) => {
+    expect(snapshot.val()).toBeFalsy()
+    done()
   })
 })
+
+// test('Should remove expenses from firebase', (done) => {
+//   const ids = []
+//   const store = createMockStore({})
+//   database.ref('expenses').once('value').then((snapshot) => {
+//     snapshot.forEach((childSnapshot) => {
+//       ids.push(childSnapshot.key)
+//     })
+//   }).then(() => {
+//     store.dispatch(startRemoveExpense({id: ids[0]})).then(() => {
+//       database.ref(`expenses/${ids[0]}`).once('value').then((snapshot) => {
+//         expect(snapshot.val()).toBeNull()
+//         done()
+//       })
+//     })
+//   })
+// })
 
 // test('Should setup add expense action object with default values', () => {
 //   const action = addExpense()

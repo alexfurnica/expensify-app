@@ -15,6 +15,7 @@ exports[`Should not set amount if invalid input 1`] = `
     <input
       onChange={[Function]}
       placeholder="Amount"
+      step="0.01"
       type="number"
       value=""
     />
@@ -121,6 +122,7 @@ exports[`Should not set amount if invalid input 2`] = `
     <input
       onChange={[Function]}
       placeholder="Amount"
+      step="0.01"
       type="number"
       value=""
     />
@@ -227,6 +229,7 @@ exports[`Should render ExpenseForm correctly 1`] = `
     <input
       onChange={[Function]}
       placeholder="Amount"
+      step="0.01"
       type="number"
       value=""
     />
@@ -333,6 +336,7 @@ exports[`Should render ExpenseForm with expense data 1`] = `
     <input
       onChange={[Function]}
       placeholder="Amount"
+      step="0.01"
       type="number"
       value="1095"
     />
@@ -439,6 +443,7 @@ exports[`Should render error for invalid form submission 1`] = `
     <input
       onChange={[Function]}
       placeholder="Amount"
+      step="0.01"
       type="number"
       value=""
     />
@@ -548,6 +553,7 @@ exports[`Should render error for invalid form submission 2`] = `
     <input
       onChange={[Function]}
       placeholder="Amount"
+      step="0.01"
       type="number"
       value=""
     />
@@ -654,6 +660,7 @@ exports[`Should set amount if valid input 1`] = `
     <input
       onChange={[Function]}
       placeholder="Amount"
+      step="0.01"
       type="number"
       value=""
     />
@@ -760,6 +767,7 @@ exports[`Should set amount if valid input 2`] = `
     <input
       onChange={[Function]}
       placeholder="Amount"
+      step="0.01"
       type="number"
       value="23.50"
     />
@@ -866,6 +874,7 @@ exports[`Should set description on input change 1`] = `
     <input
       onChange={[Function]}
       placeholder="Amount"
+      step="0.01"
       type="number"
       value=""
     />
@@ -972,6 +981,7 @@ exports[`Should set description on input change 2`] = `
     <input
       onChange={[Function]}
       placeholder="Amount"
+      step="0.01"
       type="number"
       value=""
     />
@@ -1078,6 +1088,7 @@ exports[`Should set note on textarea change 1`] = `
     <input
       onChange={[Function]}
       placeholder="Amount"
+      step="0.01"
       type="number"
       value=""
     />
@@ -1184,6 +1195,7 @@ exports[`Should set note on textarea change 2`] = `
     <input
       onChange={[Function]}
       placeholder="Amount"
+      step="0.01"
       type="number"
       value=""
     />
