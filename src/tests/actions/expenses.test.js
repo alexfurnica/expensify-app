@@ -1,8 +1,9 @@
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import {startAddExpense, addExpense, editExpense, removeExpense, setExpenses, startSetExpenses, startRemoveExpense, startEditExpense} from '../../actions/expenses'
+import {startEditExpense, startAddExpense, addExpense, editExpense, removeExpense, setExpenses, startSetExpenses, startRemoveExpense} from '../../actions/expenses'
 import expenses from '../fixtures/expenses'
 import database from '../../firebase/firebase'
+import moment from 'moment'
 
 const createMockStore = configureMockStore([thunk])
 
@@ -33,10 +34,18 @@ test('Should setup edit expense action object', () => {
   })
 })
 
-test('Should edit expense from firebase', (done) => {
+test('Should edit expense in database and store', (done) => {
   const store = createMockStore({})
-  const id = expenses[0].id
-  const updates = {amount: 21045}
+  const id = expenses[2].id
+  const updates = {description: "Credit", amount: 450}
+  const updated_expense = {
+    id: '3',
+    description: 'Credit',
+    note: '',
+    amount: 450,
+    createdAt: moment(0).add(4, 'days').valueOf()
+  }
+
   store.dispatch(startEditExpense(id, updates)).then(() => {
     const actions = store.getActions()
     expect(actions[0]).toEqual({
@@ -44,10 +53,9 @@ test('Should edit expense from firebase', (done) => {
       id,
       updates
     })
-    return database.ref(`expenses/${id}`).once('value')
-  }).then((snapshot) => {
-    expect(snapshot.val().amount).toBe(updates.amount)
-    done()
+    database.ref(`expenses/${actions[0].id}`).once('value').then((snapshot) => {
+      expect(snapshot.val()).toEqual(updated_expense)
+    })
   })
 })
 
